@@ -10,39 +10,56 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 @Service
-public class DiseaseServiceImpl implements DiseaseService{
+public class DiseaseServiceImpl implements DiseaseService {
 
-    private ModelMapper modelMapper;
-    private DiseaseRepository diseaseRepository;
+    private final ModelMapper modelMapper;
+    private final DiseaseRepository diseaseRepository;
 
-    public DiseaseServiceImpl(ModelMapper modelMapper, DiseaseRepository diseaseRepository){
-        this.diseaseRepository = diseaseRepository;
+    public DiseaseServiceImpl(ModelMapper modelMapper,
+                              DiseaseRepository diseaseRepository) {
         this.modelMapper = modelMapper;
+        this.diseaseRepository = diseaseRepository;
     }
 
+    // CREATE
     @Override
-    public DiseaseResponseDto saveDisease(DiseaseRequestDto diseaseRequestDto) {
+    public DiseaseResponseDto createDisease(DiseaseRequestDto dto) {
+        Disease disease = modelMapper.map(dto, Disease.class);
+        Disease saved = diseaseRepository.save(disease);
+        return modelMapper.map(saved, DiseaseResponseDto.class);
+    }
 
-        Disease disease = modelMapper.map(diseaseRequestDto, Disease.class);
-        Disease saveDisease = diseaseRepository.save(disease);
-        return modelMapper.map(saveDisease, DiseaseResponseDto.class);
+    // UPDATE (THIS FIXES DUPLICATES)
+    @Override
+    public DiseaseResponseDto updateDisease(Long id, DiseaseRequestDto dto) {
+
+        Disease disease = diseaseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Disease not found"));
+
+        disease.setDiseaseName(dto.getDiseaseName());
+        disease.setDescription(dto.getDescription());
+        disease.setMedications(dto.getMedications());
+
+        Disease updated = diseaseRepository.save(disease);
+        return modelMapper.map(updated, DiseaseResponseDto.class);
     }
 
     @Override
     public Page<DiseaseResponseDto> getAllDiseases(Pageable pageable) {
         return diseaseRepository.findAll(pageable)
                 .map(d -> modelMapper.map(d, DiseaseResponseDto.class));
-
     }
 
     @Override
-    public DiseaseResponseDto getDiseaseByName(String diseaseName) {
-        Disease disease = diseaseRepository.findByDiseaseNameIgnoreCase(diseaseName).orElseThrow(
-                ()-> new ResourceNotFoundException("Disease Not found with name: " + diseaseName)
-        );
-
-        return modelMapper.map(disease, DiseaseResponseDto.class);
+    public List<DiseaseResponseDto> searchByDiseaseName(String name) {
+        return diseaseRepository
+                .findByDiseaseNameContainingIgnoreCase(name)
+                .stream()
+                .map(d -> modelMapper.map(d, DiseaseResponseDto.class))
+                .toList();
     }
 
     @Override

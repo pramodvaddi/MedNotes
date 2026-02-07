@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>MedNotes</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1 class="brand">Dr Sameera Mothukuri</h1>
+    <p class="subtitle">Personal Medical Vault</p>
+</header>
+
+<main>
+
+    <!-- ADD / UPDATE -->
+    <section class="panel">
+        <h2>Medical Records</h2>
+
+        <form id="diseaseForm">
+            <input type="hidden" id="diseaseId">
+
+            <input id="diseaseName" placeholder="Disease name" required>
+            <textarea id="description" placeholder="Description" required></textarea>
+            <textarea id="medications" placeholder="Medications (comma separated)" required></textarea>
+
+            <button type="submit">Save</button>
+        </form>
+
+        <p id="successMsg" class="success"></p>
+        <p id="errorMsg" class="error"></p>
+    </section>
+
+    <!-- SEARCH & VIEW -->
+    <section class="panel">
+        <h2>Saved Conditions</h2>
+
+        <div class="row">
+            <input id="searchInput" placeholder="Search by disease name">
+            <button onclick="searchByName()">Search</button>
+            <button onclick="loadAll()">View All</button>
+        </div>
+
+        <div id="cards" class="card-grid"></div>
+    </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -5,7 +5,7 @@ public class DiseaseResponseDto {
     private Long id;
     private String diseaseName;
     private String description;
-    private String medication;
+    private String medications;
 
     public DiseaseResponseDto(){
 
@@ -35,11 +35,11 @@ public class DiseaseResponseDto {
         this.description = description;
     }
 
-    public String getMedication() {
-        return medication;
+    public String getMedications() {
+        return medications;
     }
 
-    public void setMedication(String medication) {
-        this.medication = medication;
+    public void setMedications(String medications) {
+        this.medications = medications;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 @RestController
 @RequestMapping("/api/diseases")
 public class DiseaseController {
@@ -19,26 +20,37 @@ public class DiseaseController {
         this.diseaseService = diseaseService;
     }
 
+    // CREATE
     @PostMapping
-    ResponseEntity<DiseaseResponseDto> saveDisease(@Valid @RequestBody DiseaseRequestDto diseaseRequestDto){
-        return ResponseEntity.status(201).body(diseaseService.saveDisease(diseaseRequestDto));
+    public ResponseEntity<DiseaseResponseDto> createDisease(
+            @Valid @RequestBody DiseaseRequestDto dto) {
+
+        return ResponseEntity.status(201)
+                .body(diseaseService.createDisease(dto));
+    }
+
+    // UPDATE
+    @PutMapping("/{id}")
+    public ResponseEntity<DiseaseResponseDto> updateDisease(
+            @PathVariable Long id,
+            @Valid @RequestBody DiseaseRequestDto dto) {
+
+        return ResponseEntity.ok(diseaseService.updateDisease(id, dto));
     }
 
     @GetMapping
-    ResponseEntity<Page<DiseaseResponseDto>> getAllDiseases(Pageable pageable){
-        return ResponseEntity.ok().body(diseaseService.getAllDiseases(pageable));
+    public ResponseEntity<Page<DiseaseResponseDto>> getAll(Pageable pageable) {
+        return ResponseEntity.ok(diseaseService.getAllDiseases(pageable));
     }
 
     @GetMapping("/search")
-    ResponseEntity<DiseaseResponseDto> searchByName(@RequestParam String name){
-        return ResponseEntity.ok().body(diseaseService.getDiseaseByName(name));
+    public ResponseEntity<List<DiseaseResponseDto>> search(@RequestParam String name) {
+        return ResponseEntity.ok(diseaseService.searchByDiseaseName(name));
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteById(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         diseaseService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }
