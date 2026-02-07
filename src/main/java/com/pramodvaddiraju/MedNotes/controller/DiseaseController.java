@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/diseases")
+@RequestMapping("/api/diseases")
 public class DiseaseController {
 
     private final DiseaseService diseaseService;

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface DiseaseRepository extends JpaRepository<Disease, Long> {
 
-    Optional<Disease> findDiseaseByNameIgnoreCase(String diseaseName);
+
+    Optional<Disease> findByDiseaseNameIgnoreCase(String diseaseName);
+
 
 }

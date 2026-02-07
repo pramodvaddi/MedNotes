@@ -38,7 +38,7 @@ public class DiseaseServiceImpl implements DiseaseService{
 
     @Override
     public DiseaseResponseDto getDiseaseByName(String diseaseName) {
-        Disease disease = diseaseRepository.findDiseaseByNameIgnoreCase(diseaseName).orElseThrow(
+        Disease disease = diseaseRepository.findByDiseaseNameIgnoreCase(diseaseName).orElseThrow(
                 ()-> new ResourceNotFoundException("Disease Not found with name: " + diseaseName)
         );
 
