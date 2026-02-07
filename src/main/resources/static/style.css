@@ -213,9 +213,12 @@ button:hover {
         flex-direction: column;
     }
 
+@media (max-width: 600px) {
     .card-grid {
         grid-template-columns: 1fr;
     }
+}
+
 
     .card {
         padding: 18px;
