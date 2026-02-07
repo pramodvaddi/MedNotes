@@ -1,4 +1,5 @@
-const API = "http://localhost:8080/api/diseases";
+const API = "https://mednotes-3.onrender.com/api/diseases";
+
 
 // SAVE / UPDATE
 document.getElementById("diseaseForm").addEventListener("submit", async (e) => {
