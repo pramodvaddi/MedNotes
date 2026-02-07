@@ -1,4 +1,4 @@
-const API = "https://mednotes-sameera.onrender.com/api/diseases";
+const API = "https://mednotes-3.onrender.com/api/diseases";
 
 
 // SAVE / UPDATE
